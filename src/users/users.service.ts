@@ -4,28 +4,28 @@ import { ConflictException, Injectable } from "@nestjs/common";
 
 
 @Injectable()
-export class UsersService{
+export class UsersService {
 
-     constructor(private prisma: PrismaService){}
+  constructor(private prisma: PrismaService) { }
 
-     async getAllUser():Promise<Users[]>{
-          return this.prisma.user.findMany()
-     }
+  async getAllUser(): Promise<Users[]> {
+    return this.prisma.user.findMany()
+  }
 
 
-     async createUser(data:Users): Promise<Users>{
-          const existing = await this.prisma.user.findUnique({
-               where: {
-                 username: data.username,
-               },
-             });
-         
-             if (existing) {
-               throw new ConflictException('username already exists');
-             }
-         
-             return this.prisma.user.create({
-               data,
-             });
-     }
+  async createUser(data: Users): Promise<Users> {
+    const existing = await this.prisma.user.findUnique({
+      where: {
+        username: data.username,
+      },
+    });
+
+    if (existing) {
+      throw new ConflictException('username already exists');
+    }
+
+    return this.prisma.user.create({
+      data,
+    });
+  }
 }
